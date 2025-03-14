@@ -12,15 +12,15 @@ $group = "<Usergroup>"
 
 $users = Get-ADGroupMember -Identity $group | Select-Object -ExpandProperty SamAccountName
 
-write-host $users
+Write-Host $users
 foreach ($user in $users) 
 {
     $sessions = quser /server:<servernaam> | findstr /R /C:"$user" | findstr /R /C:"Disc" 
 
     Write-Host "------------------"
-    write-host "testing" $user
+    Write-Host "testing" $user
     Write-Host "session" $sessions
-    if ($sessions -ne $null) 
+    if ($null -ne $sessions) 
     {
         $sessionId = ($sessions -split ' +')[2]
         Write-Host "Logging off" $user "with id" $sessionId
@@ -30,7 +30,7 @@ foreach ($user in $users)
     }
     else
     {
-    Write-Host $user "not disconnected, skipping..."
+        Write-Host $user "not disconnected, skipping..."
     }
 }
 Write-Host "=========================="

@@ -11,7 +11,8 @@ Import-PSSession $Session -AllowClobber -DisableNameChecking
 $SharedMailboxes = Get-Mailbox -RecipientTypeDetails SharedMailbox
 
 # Loop through each shared mailbox and enable MessageCopyForSentAs
-foreach ($Mailbox in $SharedMailboxes) {
+foreach ($Mailbox in $SharedMailboxes)
+{
     Set-Mailbox -Identity $Mailbox.Identity -MessageCopyForSentAsEnabled $true
 }
 

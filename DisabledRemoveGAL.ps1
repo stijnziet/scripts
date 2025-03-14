@@ -4,7 +4,7 @@
 
 
 Start-Transcript c:\tmp\GAL.log
-$users = Get-ADUser -Filter {Enabled -eq $false}
+$users = Get-ADUser -Filter { Enabled -eq $false }
 foreach ($user in $users) 
 {
     $name = $user.Name
@@ -12,14 +12,14 @@ foreach ($user in $users)
             
     #check status. Empty = false
     $property = Get-ADUser -Identity $DN -Properties msExchHideFromAddressLists | Select-Object msExchHideFromAddressLists
-    write-host $name pre-HideGAL: $property
+    Write-Host $name pre-HideGAL: $property
 
     #write new value
-    Set-ADUser -Identity $DN -Replace @{msExchHideFromAddressLists=$true}
+    Set-ADUser -Identity $DN -Replace @{msExchHideFromAddressLists = $true }
             
     #check status again
     $property = Get-ADUser -Identity $DN -Properties msExchHideFromAddressLists | Select-Object msExchHideFromAddressLists
-    write-host $name post-HideGAL: $property
-    write-host "--------------------------"
+    Write-Host $name post-HideGAL: $property
+    Write-Host "--------------------------"
 }
 Stop-Transcript

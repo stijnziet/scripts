@@ -6,9 +6,10 @@ $targetOU = "OU=TargetOU,OU=ParentOU,DC=example,DC=com"
 $logFilePath = "C:\path\to\scripts\logfile.txt"
 
 # Get expired accounts in Active Directory
-$expiredAccounts = Get-ADUser -Filter {AccountExpirationDate -lt (Get-Date) -and Enabled -eq $true} -Properties AccountExpirationDate
+$expiredAccounts = Get-ADUser -Filter { AccountExpirationDate -lt (Get-Date) -and Enabled -eq $true } -Properties AccountExpirationDate
 
-foreach ($account in $expiredAccounts) {
+foreach ($account in $expiredAccounts)
+{
     # Disable the user account
     Disable-ADAccount -Identity $account.DistinguishedName
     

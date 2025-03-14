@@ -6,12 +6,13 @@
 Import-Module ActiveDirectory
 
 
-$computers = Get-ADComputer -Filter {Enabled -eq $true -and Name -like "VLBES-PC*"} -Properties LastLogonDate | Where-Object {$_.LastLogonDate -lt (Get-Date).AddDays(-365)} | Sort-Object -Property LastLogonDate
+$computers = Get-ADComputer -Filter { Enabled -eq $true -and Name -like "VLBES-PC*" } -Properties LastLogonDate | Where-Object { $_.LastLogonDate -lt (Get-Date).AddDays(-365) } | Sort-Object -Property LastLogonDate
 
-foreach ($computer in $computers) {
+foreach ($computer in $computers)
+{
     Write-Output "Computer Name: $($computer.Name)"
     Write-Output "Last Logon Date: $($computer.LastLogonDate)"
     Write-Output "--------------------------"
 }
 echo Done
-pause
+Pause

@@ -63,11 +63,11 @@ If (!($CredObjCheck))
 	#If not present get office 365 cred to save and store
 	$Credential = Get-Credential -Message "Please enter your Office 365 credential that you will use to send e-mail from $FromEmail. If you are not using the account $FromEmail make sure this account has 'Send As' rights on $FromEmail."
 	#Export cred obj
-	$Credential | Export-CliXml -Path $CredObj
+	$Credential | Export-Clixml -Path $CredObj
 }
 
 Write-Host "Importing Cred object..." -ForegroundColor Yellow
-$Cred = (Import-CliXml -Path $CredObj)
+$Cred = (Import-Clixml -Path $CredObj)
 
 
 # Get Users From AD who are Enabled, Passwords Expire and are Not Currently Expired
@@ -108,13 +108,13 @@ foreach ($user in $users)
 	$passwordSetDate = (Get-ADUser $user -properties * | ForEach-Object { $_.PasswordLastSet })
 	#Check for Fine Grained Passwords
 	$PasswordPol = (Get-ADUserResultantPasswordPolicy $user)
-	if (($PasswordPol) -ne $null)
+	if ($null -ne ($PasswordPol))
 	{
 		$maxPasswordAge = ($PasswordPol).MaxPasswordAge
 	}
 	
 	$expireson = $passwordsetdate + $maxPasswordAge
-	$today = (get-date)
+	$today = (Get-Date)
 	#Gets the count on how many days until the password expires and stores it in the $daystoexpire var
 	$daystoexpire = (New-TimeSpan -Start $today -End $Expireson).Days
 	
@@ -123,7 +123,7 @@ foreach ($user in $users)
 		"$Date - INFO: Sending expiry notice email to $Name" | Out-File ($DirPath + "\" + "Log.txt") -Append
 		Write-Host "Sending Password expiry email to $Name"
 		
-		$SmtpClient = new-object system.net.mail.smtpClient
+		$SmtpClient = New-Object system.net.mail.smtpClient
 		$MailMessage = New-Object system.net.mail.mailmessage
 		
 		#Who is the e-mail sent from
@@ -136,8 +136,8 @@ foreach ($user in $users)
 		$SMTPClient.Credentials = $cred
 		#Send e-mail to the users email
 		     
-    #Hieronder kun je de eerste regel commenten en de 2e regel te gebruiken om te testen of het mailen werkt.
-    $mailmessage.To.add("$emailaddress") #livemode
+		#Hieronder kun je de eerste regel commenten en de 2e regel te gebruiken om te testen of het mailen werkt.
+		$mailmessage.To.add("$emailaddress") #livemode
 		#$mailmessage.To.add("stijn@mailadres.nl") #testmode
 		#Email subject
 		$mailmessage.Subject = "Your password will expire $daystoexpire days"
@@ -176,8 +176,8 @@ If you have any questions please contact our Support team.
 Thanks,
 
 "
-	write-host "Password expires in $daystoexpire days"	
-    Write-Host "Sending E-mail to $emailaddress..." -ForegroundColor Green
+		Write-Host "Password expires in $daystoexpire days"	
+		Write-Host "Sending E-mail to $emailaddress..." -ForegroundColor Green
 		Try
 		{
 			$smtpclient.Send($mailmessage)
@@ -185,7 +185,7 @@ Thanks,
 		Catch
 		{
 			$_ | Out-File ($DirPath + "\" + "Log.txt") -Append
-            Write-Host "NOT sent" -ForegroundColor Red
+			Write-Host "NOT sent" -ForegroundColor Red
 		}
 	}
 	Else

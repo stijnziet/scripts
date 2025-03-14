@@ -9,7 +9,8 @@ Connect-ExchangeOnline
 $mailboxes = Get-Mailbox -RecipientTypeDetails SharedMailbox
 
 # Set the MessageCopyForSentAsEnabled property to true for each shared mailbox
-foreach ($mailbox in $mailboxes) {
+foreach ($mailbox in $mailboxes)
+{
     Set-Mailbox -Identity $mailbox.Identity -MessageCopyForSentAsEnabled $true
     Write-Host "Set to true for mailbox: $($mailbox.Name)"
 }

@@ -4,7 +4,6 @@
 
 Start-Transcript C:\tmp\GAL.log
 #Variables:
-$ouName = "Disabled Users"
 $domain = "DC=<domain name>,DC=local"
 #-------------------------
 
@@ -17,17 +16,17 @@ foreach ($ouPath in $ouPaths)
     echo ==========
     Write-Host "Current OU: "$ouPath -ForegroundColor yellow
     echo -----------
-        foreach ($user in $users) 
-        {
+    foreach ($user in $users) 
+    {
         $name = $user.Name
         $DN = $user.DistinguishedName
         $property = Get-ADUser -Identity $DN -Properties msExchHideFromAddressLists | Select-Object -ExpandProperty msExchHideFromAddressLists
-        write-host $name pre-HideGAL: $property
-        Set-ADUser -Identity $DN -Replace @{msExchHideFromAddressLists=$true}
+        Write-Host $name pre-HideGAL: $property
+        Set-ADUser -Identity $DN -Replace @{msExchHideFromAddressLists = $true }
         $property = Get-ADUser -Identity $DN -Properties msExchHideFromAddressLists | Select-Object -ExpandProperty msExchHideFromAddressLists
-        write-host $name post-HideGAL: $property
-        write-host "--------------------------"
-        }
-    write-host "End of OU" -ForegroundColor green
+        Write-Host $name post-HideGAL: $property
+        Write-Host "--------------------------"
+    }
+    Write-Host "End of OU" -ForegroundColor green
 }
 Stop-Transcript
