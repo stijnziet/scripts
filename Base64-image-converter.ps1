@@ -16,7 +16,8 @@ $openFileDialog.Title = "Select an Image"
 $result = $openFileDialog.ShowDialog()
 
 # Proceed if a file was selected
-if ($result -eq [System.Windows.Forms.DialogResult]::OK) {
+if ($result -eq [System.Windows.Forms.DialogResult]::OK)
+{
     $imagePath = $openFileDialog.FileName
     
     # Load the image
