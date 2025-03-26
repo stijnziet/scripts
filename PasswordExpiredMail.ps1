@@ -3,9 +3,9 @@
 	===========================================================================
 	 Created on:   	3/27/2018 7:37 PM
 	 Created by:   	Bradley Wyatt
-   Edited by:     ditiswat.stijnziet.nl
-   Edited on:     8/31/2023 9:40 AM
-	 Version: 	    1.0.1
+	 Edited by:     ditiswat.stijnziet.nl
+	 Edited on:     8/31/2023 9:40 AM
+	 Version: 	    1.0.2
 	 Notes:
 	The variables you should change are the SMTP Host, From Email and Expireindays. I suggest keeping the DirPath
 	SMTPHOST: The smtp host it will use to send mail
@@ -33,7 +33,7 @@ $FromEmail = "jouw@mailadres"
 $expireindays = 15
 
 #Program File Path
-$DirPath = "C:\beheer\scripts\PasswordExpiry"
+$DirPath = "C:\temp\scripts\PasswordExpiry"
 
 #optioneel als je deze fout in je log vindt: CategoryInfo : NotSpecified: (:) [], MethodInvocationException 
 #[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 
